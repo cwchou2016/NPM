@@ -1,13 +1,10 @@
 package us.dontcareabout.npm.client;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Window;
 
 import us.dontcareabout.gwt.client.GFEP;
 
 public class NPMEP extends GFEP {
-	static final RpcServiceAsync rpc = GWT.create(RpcService.class);
-
 	public NPMEP() {}
 
 	@Override
@@ -23,5 +20,6 @@ public class NPMEP extends GFEP {
 
 	@Override
 	protected void start() {
+		Window.alert("Hello World");
 	}
 }
