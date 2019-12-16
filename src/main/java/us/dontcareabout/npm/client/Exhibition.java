@@ -1,12 +1,16 @@
 package us.dontcareabout.npm.client;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Exhibition {
 	private String name;
-	private ArrayList<Object> openIntervals = new ArrayList<>();
-	// TODO: class OpenIntervals
-	// TODO: class DateInterval
+
+	/**
+	 * key: 展間名稱
+	 * value: 開放日期區間
+	 */
+	private Map<String, DateInfo> openIntervals = new HashMap<>();
 
 
 	Exhibition(RawData data) {
