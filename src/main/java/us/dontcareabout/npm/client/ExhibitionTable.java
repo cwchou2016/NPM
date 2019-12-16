@@ -1,11 +1,13 @@
 package us.dontcareabout.npm.client;
 
+import us.dontcareabout.gwt.client.Console;
 import us.dontcareabout.gwt.client.google.Sheet;
 import us.dontcareabout.gwt.client.google.SheetHappen;
 
 import java.util.ArrayList;
 
 public class ExhibitionTable {
+	private ArrayList<Exhibition> exhibitionTable = new ArrayList<>();
 
 	ExhibitionTable(String sheetId) {
 		loadFromGoogleSheet(sheetId);
@@ -16,6 +18,7 @@ public class ExhibitionTable {
 			@Override
 			public void onSuccess(Sheet<RawData> gs) {
 				ArrayList<RawData> dataList = gs.getEntry();
+				loadExhibitionInfo(dataList);
 			}
 
 			@Override
@@ -29,6 +32,9 @@ public class ExhibitionTable {
 	 * 從 dataList 讀取展覽資訊
 	 */
 	public void loadExhibitionInfo(ArrayList<RawData> dataList) {
+		for (RawData data : dataList) {
+			if (!data.getClose()) exhibitionTable.add(new Exhibition(data));
+		}
 	}
 
 	/**
