@@ -1,17 +1,23 @@
 package us.dontcareabout.npm.client;
 
 import com.google.gwt.user.client.Window;
-
 import us.dontcareabout.gwt.client.GFEP;
 
 public class NPMEP extends GFEP {
-	public NPMEP() {}
+	private final static String SHEET_ID = "1xRkXYlAioJe44AvhLpxuyZLfkvkmz9L0sPZo67feKH0";
+
+	public NPMEP() {
+	}
 
 	@Override
-	protected String version() { return "0.0.1"; }
+	protected String version() {
+		return "0.0.1";
+	}
 
 	@Override
-	protected String defaultLocale() { return "zh_TW"; }
+	protected String defaultLocale() {
+		return "zh_TW";
+	}
 
 	@Override
 	protected void featureFail() {
@@ -20,6 +26,6 @@ public class NPMEP extends GFEP {
 
 	@Override
 	protected void start() {
-		Window.alert("Hello World");
+		ExhibitionTable dt = new ExhibitionTable(SHEET_ID);
 	}
 }
