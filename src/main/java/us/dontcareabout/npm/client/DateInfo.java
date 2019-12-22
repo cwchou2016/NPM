@@ -17,7 +17,7 @@ public class DateInfo {
 	 * 加入展廳開放日期區間
 	 */
 	public void addOpenInterval(Date date1, Date date2) {
-
+		openIntervals.add(new DateInterval(date1, date2));
 	}
 
 	/**
@@ -29,5 +29,10 @@ public class DateInfo {
 
 	public ArrayList<DateInterval> getOpenIntervals() {
 		return openIntervals;
+	}
+
+	@Override
+	public String toString() {
+		return openIntervals.toString();
 	}
 }

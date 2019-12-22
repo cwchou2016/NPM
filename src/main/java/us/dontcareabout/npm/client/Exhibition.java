@@ -2,6 +2,7 @@ package us.dontcareabout.npm.client;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Exhibition {
 	private String name;
@@ -15,6 +16,12 @@ public class Exhibition {
 
 	Exhibition(RawData data) {
 		this.name = data.getName();
+
+		for (String r : data.getRooms().split(",")) {
+			String room = r.trim().toUpperCase();
+			openIntervals.put(room, new DateInfo());
+			openIntervals.get(room).addOpenInterval(data.getStart(), data.getEnd());
+		}
 	}
 
 	/**
@@ -23,8 +30,14 @@ public class Exhibition {
 	public void addClose(RawData data) {
 	}
 
+	public Set<String> getRooms() {
+		return openIntervals.keySet();
+	}
+
 	@Override
 	public String toString() {
-		return "Name: " + name;
+		return "Name: " + name + ", " +
+				"Showroom: " + getRooms() + ", " +
+				"Display date: " + openIntervals;
 	}
 }
