@@ -1,24 +1,35 @@
 package us.dontcareabout.npm.client;
 
-import us.dontcareabout.gwt.client.Console;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 import us.dontcareabout.gwt.client.google.Sheet;
 import us.dontcareabout.gwt.client.google.SheetHappen;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ExhibitionTable {
-	private ArrayList<Exhibition> exhibitionTable = new ArrayList<>();
+	private static final SimpleEventBus eventBus = new SimpleEventBus();
+	private static final ArrayList<Exhibition> exhibitionTable = new ArrayList<>();
 
-	ExhibitionTable(String sheetId) {
-		loadFromGoogleSheet(sheetId);
+	public static HandlerRegistration addDataReadyHandler(DataReadyEvent.DataReadyHandler handler) {
+		return eventBus.addHandler(DataReadyEvent.TYPE, handler);
 	}
 
-	private void loadFromGoogleSheet(String sheetId) {
+	public static List<Exhibition> getExhibitionTable() {
+		return Collections.unmodifiableList(exhibitionTable);
+	}
+
+
+	public static void loadFromGoogleSheet(String sheetId) {
 		SheetHappen.<RawData>get(sheetId, 1, new SheetHappen.Callback<RawData>() {
 			@Override
 			public void onSuccess(Sheet<RawData> gs) {
 				ArrayList<RawData> dataList = gs.getEntry();
 				loadExhibitionInfo(dataList);
+
+				eventBus.fireEvent(new DataReadyEvent());
 			}
 
 			@Override
@@ -31,7 +42,7 @@ public class ExhibitionTable {
 	/**
 	 * 從 dataList 讀取展覽資訊
 	 */
-	public void loadExhibitionInfo(ArrayList<RawData> dataList) {
+	private static void loadExhibitionInfo(ArrayList<RawData> dataList) {
 		for (RawData data : dataList) {
 			if (!data.getClose()) exhibitionTable.add(new Exhibition(data));
 		}
@@ -42,5 +53,4 @@ public class ExhibitionTable {
 	 */
 	public void loadCloseInfo(ArrayList<RawData> dataList) {
 	}
-
 }
