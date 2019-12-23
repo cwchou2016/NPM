@@ -30,9 +30,4 @@ public class DateInfo {
 	public ArrayList<DateInterval> getOpenIntervals() {
 		return openIntervals;
 	}
-
-	@Override
-	public String toString() {
-		return openIntervals.toString();
-	}
 }

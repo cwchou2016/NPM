@@ -1,7 +1,6 @@
 package us.dontcareabout.npm.client;
 
 import com.google.gwt.user.client.Window;
-import us.dontcareabout.gwt.client.Console;
 import us.dontcareabout.gwt.client.GFEP;
 
 public class NPMEP extends GFEP {
@@ -32,9 +31,7 @@ public class NPMEP extends GFEP {
 		ExhibitionTable.addDataReadyHandler(new DataReadyEvent.DataReadyHandler() {
 			@Override
 			public void onDataReady(DataReadyEvent event) {
-				for (Exhibition e : ExhibitionTable.getExhibitionTable()) {
-					Console.log(e);
-				}
+				Window.alert("載入完成");
 			}
 		});
 	}

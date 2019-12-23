@@ -1,5 +1,6 @@
 package us.dontcareabout.npm.client;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -19,8 +20,9 @@ public class Exhibition {
 
 		for (String r : data.getRooms().split(",")) {
 			String room = r.trim().toUpperCase();
-			openIntervals.put(room, new DateInfo());
-			openIntervals.get(room).addOpenInterval(data.getStart(), data.getEnd());
+			DateInfo dateInfo = new DateInfo();
+			dateInfo.addOpenInterval(data.getStart(), data.getEnd());
+			openIntervals.put(room, dateInfo);
 		}
 	}
 
@@ -34,10 +36,11 @@ public class Exhibition {
 		return openIntervals.keySet();
 	}
 
-	@Override
-	public String toString() {
-		return "Name: " + name + ", " +
-				"Showroom: " + getRooms() + ", " +
-				"Display date: " + openIntervals;
+	public String getName() {
+		return name;
+	}
+
+	public Map<String, DateInfo> getOpenIntervals() {
+		return Collections.unmodifiableMap(openIntervals);
 	}
 }

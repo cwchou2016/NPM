@@ -27,14 +27,4 @@ public final class RawData extends SheetEntry {
 	public boolean getClose() {
 		return stringField("close") == "TRUE" ? true : false;
 	}
-
-	public String display() {
-		return getName() + ", " +
-				getRooms() + ", " +
-				getClose() + ", " +
-				getStart() + ", " +
-				getEnd() + ", ";
-
-	}
-
 }
