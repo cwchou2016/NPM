@@ -13,8 +13,9 @@ public class Showroom {
 	/**
 	 * 判斷是否是子展間
 	 */
-	public static void isSubRoom(String room) {
-		//TODO
+	public static boolean isSubRoom(String room) {
+		// 檢查最後一個字元：非數字為子展間。
+		return !Character.isDigit(room.charAt(room.length() - 1));
 	}
 
 	/**
