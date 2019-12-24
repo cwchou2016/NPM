@@ -19,10 +19,12 @@ public class Showroom {
 	}
 
 	/**
-	 * 取得子展間的名稱
+	 * @return 子展間的名稱。當傳入的 {@param room} 非子展間時，回傳 null。
 	 */
-	public static void getSubName(String room) {
-		//TODO
+	public static Character getSubName(String room) {
+		if (!isSubRoom(room)) return null;
+
+		return room.charAt(room.length() - 1);
 	}
 
 	/**
