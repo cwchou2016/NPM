@@ -1,5 +1,9 @@
 package us.dontcareabout.npm.client;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * 處理展廳
  */
@@ -28,16 +32,25 @@ public class Showroom {
 	}
 
 	/**
-	 * 取得母展間名稱
+	 * @return 母展間名稱
 	 */
-	public static void getParentName(String room) {
-		//TODO
+	public static String getParentName(String room) {
+		if (!isSubRoom(room)) return room;
+
+		return room.substring(0, room.length() - 1);
 	}
 
 	/**
-	 * 將母展間切割為兩個子展間
+	 * @return 分割後子展間的名稱。當傳入的 {@param room} 為子展間時，回傳 null。
 	 */
-	public static void splitRoom(String room) {
-		//TODO
+	public static List<String> splitRoom(String room) {
+		if (isSubRoom(room)) return null;
+
+		ArrayList<String> subRooms = new ArrayList<>();
+		// 目前應該只需要兩個子展間吧
+		subRooms.add(room + firstSubName);
+		subRooms.add(room + ((char) ((int) firstSubName + 1)));
+
+		return Collections.unmodifiableList(subRooms);
 	}
 }
