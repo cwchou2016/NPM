@@ -28,7 +28,7 @@ public class ExhibitionTable {
 			public void onSuccess(Sheet<RawData> gs) {
 				ArrayList<RawData> dataList = gs.getEntry();
 				loadExhibitionInfo(dataList);
-
+				loadCloseInfo(dataList);
 				eventBus.fireEvent(new DataReadyEvent());
 			}
 
@@ -51,6 +51,16 @@ public class ExhibitionTable {
 	/**
 	 * 從 dataList 讀取換展關閉展廳資訊
 	 */
-	public void loadCloseInfo(ArrayList<RawData> dataList) {
+	private static void loadCloseInfo(ArrayList<RawData> dataList) {
+		for (RawData data : dataList) {
+			if (!data.getClose()) continue;
+
+			for (Exhibition e : exhibitionTable) {
+				if (e.getName().equals(data.getName())) {
+					e.addClose(data);
+					break;
+				}
+			}
+		}
 	}
 }
