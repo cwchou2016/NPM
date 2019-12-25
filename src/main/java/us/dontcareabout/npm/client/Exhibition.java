@@ -73,6 +73,14 @@ public class Exhibition {
 		openIntervals.remove(room);
 	}
 
+	/**
+	 * 展出期間
+	 */
+	public DateInterval getDisplayDate() {
+		DateInfo intervals = openIntervals.values().iterator().next();
+		return intervals.getOpenRange();
+	}
+
 	public Set<String> getRooms() {
 		return openIntervals.keySet();
 	}
