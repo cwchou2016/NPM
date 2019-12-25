@@ -1,6 +1,8 @@
 package us.dontcareabout.npm.client;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -34,6 +36,23 @@ public class DateInfo {
 		}
 
 		//TODO: 處理找不到可切除的日期區間的情形
+	}
+
+	/**
+	 * @return 整個開放日期的範圍
+	 */
+	public DateInterval getOpenRange() {
+		Collections.sort(openIntervals, new Comparator<DateInterval>() {
+			/**
+			 * 比較兩個 DateInterval.start
+			 */
+			@Override
+			public int compare(DateInterval d1, DateInterval d2) {
+				return d1.getStart().compareTo(d2.getStart());
+			}
+		});
+
+		return new DateInterval(openIntervals.get(0).getStart(), openIntervals.get(openIntervals.size() - 1).getEnd());
 	}
 
 	public DateInfo deepClone() {
