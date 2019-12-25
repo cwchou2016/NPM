@@ -36,6 +36,14 @@ public class DateInfo {
 		//TODO: 處理找不到可切除的日期區間的情形
 	}
 
+	public DateInfo deepClone() {
+		DateInfo newDateInfo = new DateInfo();
+		for (DateInterval dateInterval : openIntervals) {
+			newDateInfo.addOpenInterval(dateInterval.getStart(), dateInterval.getEnd());
+		}
+		return newDateInfo;
+	}
+
 	public ArrayList<DateInterval> getOpenIntervals() {
 		return openIntervals;
 	}
