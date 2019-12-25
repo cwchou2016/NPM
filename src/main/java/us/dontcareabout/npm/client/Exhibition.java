@@ -1,5 +1,8 @@
 package us.dontcareabout.npm.client;
 
+import us.dontcareabout.gwt.client.Console;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +33,39 @@ public class Exhibition {
 	 * 加入換展關閉展廳之資訊
 	 */
 	public void addClose(RawData data) {
+		ArrayList<String> roomToClose = new ArrayList<>();
+
+		for (String r : data.getRooms().split(",")) {
+			String closeRoom = r.trim().toUpperCase();
+
+			// 找不到展廳
+			if (!getRooms().contains(closeRoom)) {
+				// 展廳未分兩半，只關閉一半
+				String parentRoom = Showroom.getParentName(closeRoom);
+				if (getRooms().contains(parentRoom)) {
+					for (String subRoom : Showroom.splitRoom(parentRoom)) {
+						openIntervals.put(subRoom, openIntervals.get(parentRoom).deepClone());
+					}
+					openIntervals.remove(parentRoom);
+					roomToClose.addAll(Showroom.splitRoom(parentRoom));
+					continue;
+				}
+
+				// 展廳已分兩半，全部關閉
+				if (getRooms().containsAll(Showroom.splitRoom(closeRoom))) {
+					roomToClose.addAll(Showroom.splitRoom(closeRoom));
+					continue;
+				}
+				// TODO: 完全找不到展廳的情形
+			} else {
+				roomToClose.add(closeRoom);
+			}
+		}
+
+		DateInterval closeInterval = new DateInterval(data.getStart(), data.getEnd());
+		for (String room : roomToClose) {
+			openIntervals.get(room).cutCloseInterval(closeInterval);
+		}
 	}
 
 	public Set<String> getRooms() {
