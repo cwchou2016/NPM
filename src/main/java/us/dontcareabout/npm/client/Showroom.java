@@ -41,12 +41,13 @@ public class Showroom {
 	}
 
 	/**
-	 * @return 分割後子展間的名稱。當傳入的 {@param room} 為子展間時，回傳 null。
+	 * @return 分割後子展間的名稱。當傳入的 {@param room} 為子展間時，回傳空 List。
 	 */
 	public static List<String> splitRoom(String room) {
-		if (isSubRoom(room)) return null;
-
 		ArrayList<String> subRooms = new ArrayList<>();
+
+		if (isSubRoom(room)) return subRooms;
+
 		// 目前應該只需要兩個子展間吧
 		subRooms.add(room + firstSubName);
 		subRooms.add(room + ((char) ((int) firstSubName + 1)));
