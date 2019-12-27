@@ -1,5 +1,7 @@
 package us.dontcareabout.npm.client;
 
+import us.dontcareabout.npm.client.Exception.RoomNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,9 +30,9 @@ public class Exhibition {
 	}
 
 	/**
-	 * 加入換展關閉展廳之資訊
+	 * @return 成功加入換展關閉展廳之資訊
 	 */
-	public void addClose(RawData data) {
+	public boolean addClose(RawData data) {
 		ArrayList<String> roomToClose = new ArrayList<>();
 
 		for (String r : data.getRooms().split(",")) {
@@ -42,7 +44,7 @@ public class Exhibition {
 				String parentRoom = Showroom.getParentName(closeRoom);
 				if (getRooms().contains(parentRoom)) {
 					splitRoom(parentRoom);
-					roomToClose.addAll(Showroom.splitRoom(parentRoom));
+					roomToClose.add(closeRoom);
 					continue;
 				}
 
@@ -51,7 +53,7 @@ public class Exhibition {
 					roomToClose.addAll(Showroom.splitRoom(closeRoom));
 					continue;
 				}
-				// TODO: 完全找不到展廳的情形
+				throw new RoomNotFoundException(closeRoom);
 			} else {
 				roomToClose.add(closeRoom);
 			}
@@ -61,6 +63,7 @@ public class Exhibition {
 		for (String room : roomToClose) {
 			openIntervals.get(room).cutCloseInterval(closeInterval);
 		}
+		return true;
 	}
 
 	/**

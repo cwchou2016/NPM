@@ -4,6 +4,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import us.dontcareabout.gwt.client.google.Sheet;
 import us.dontcareabout.gwt.client.google.SheetHappen;
+import us.dontcareabout.npm.client.Exception.ExhibitionNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,12 +56,14 @@ public class ExhibitionTable {
 		for (RawData data : dataList) {
 			if (!data.getClose()) continue;
 
+			boolean found = false;
 			for (Exhibition e : exhibitionTable) {
 				if (e.getName().equals(data.getName())) {
-					e.addClose(data);
+					found = e.addClose(data);
 					break;
 				}
 			}
+			if (!found) throw new ExhibitionNotFoundException(data.getName());
 		}
 	}
 }

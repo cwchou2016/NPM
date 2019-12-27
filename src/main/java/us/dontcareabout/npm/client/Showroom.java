@@ -1,5 +1,7 @@
 package us.dontcareabout.npm.client;
 
+import us.dontcareabout.npm.client.Exception.RoomCannotSplitException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,12 +43,12 @@ public class Showroom {
 	}
 
 	/**
-	 * @return 分割後子展間的名稱。當傳入的 {@param room} 為子展間時，回傳空 List。
+	 * @return 分割後子展間的名稱。當傳入的 {@param room} 為子展間時，throw {@link RoomCannotSplitException}。
 	 */
 	public static List<String> splitRoom(String room) {
 		ArrayList<String> subRooms = new ArrayList<>();
 
-		if (isSubRoom(room)) return subRooms;
+		if (isSubRoom(room)) throw new RoomCannotSplitException(room);
 
 		// 目前應該只需要兩個子展間吧
 		subRooms.add(room + firstSubName);

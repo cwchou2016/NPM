@@ -1,5 +1,7 @@
 package us.dontcareabout.npm.client;
 
+import us.dontcareabout.npm.client.Exception.CutDateIntervalException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,7 +37,7 @@ public class DateInfo {
 			}
 		}
 
-		//TODO: 處理找不到可切除的日期區間的情形
+		throw new CutDateIntervalException(closeInterval, openIntervals);
 	}
 
 	/**
