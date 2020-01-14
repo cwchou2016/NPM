@@ -1,5 +1,6 @@
 package us.dontcareabout.npm.client;
 
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import us.dontcareabout.npm.client.Exception.CutDateIntervalException;
 
 import java.util.ArrayList;
@@ -25,9 +26,10 @@ public class DateInfo {
 	public void cutCloseInterval(DateInterval closeInterval) {
 		for (DateInterval dateInterval : openIntervals) {
 			if (dateInterval.contains(closeInterval)) {
-				// 這邊無法移動日期
-				openIntervals.add(new DateInterval(closeInterval.getEnd(), dateInterval.getEnd())); //應為 closeInterval.getEnd() +1 天
-				dateInterval.setEnd(closeInterval.getStart()); // 應為 closeInterval.getStart() -1 天
+				CalendarUtil.addDaysToDate(closeInterval.getEnd(), 1);
+				CalendarUtil.addDaysToDate(closeInterval.getStart(), -1);
+				openIntervals.add(new DateInterval(closeInterval.getEnd(), dateInterval.getEnd()));
+				dateInterval.setEnd(closeInterval.getStart());
 				sort();
 				return;
 			}
