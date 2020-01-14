@@ -23,8 +23,7 @@ public class Exhibition {
 
 		for (String r : data.getRooms().split(",")) {
 			String room = r.trim().toUpperCase();
-			DateInfo dateInfo = new DateInfo();
-			dateInfo.addOpenInterval(data.getStart(), data.getEnd());
+			DateInfo dateInfo = new DateInfo(data.getStart(), data.getEnd());
 			openIntervals.put(room, dateInfo);
 		}
 	}

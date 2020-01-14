@@ -11,16 +11,11 @@ import java.util.Date;
  * 開放日期區間
  */
 public class DateInfo {
-	ArrayList<DateInterval> openIntervals;
+	private ArrayList<DateInterval> openIntervals = new ArrayList<>();
+	private DateInterval openRange;
 
-	DateInfo() {
-		openIntervals = new ArrayList<>();
-	}
-
-	/**
-	 * 加入展廳開放日期區間
-	 */
-	public void addOpenInterval(Date date1, Date date2) {
+	DateInfo(Date date1, Date date2) {
+		openRange = new DateInterval(date1, date2);
 		openIntervals.add(new DateInterval(date1, date2));
 	}
 
@@ -31,7 +26,7 @@ public class DateInfo {
 		for (DateInterval dateInterval : openIntervals) {
 			if (dateInterval.contains(closeInterval)) {
 				// 這邊無法移動日期
-				addOpenInterval(closeInterval.getEnd(), dateInterval.getEnd()); //應為 closeInterval.getEnd() +1 天
+				openIntervals.add(new DateInterval(closeInterval.getEnd(), dateInterval.getEnd())); //應為 closeInterval.getEnd() +1 天
 				dateInterval.setEnd(closeInterval.getStart()); // 應為 closeInterval.getStart() -1 天
 				return;
 			}
@@ -58,10 +53,14 @@ public class DateInfo {
 	}
 
 	public DateInfo deepClone() {
-		DateInfo newDateInfo = new DateInfo();
+		DateInfo newDateInfo = new DateInfo(openRange.getStart(), openRange.getEnd());
+
+		ArrayList<DateInterval> newIntervals = new ArrayList<>();
 		for (DateInterval dateInterval : openIntervals) {
-			newDateInfo.addOpenInterval(dateInterval.getStart(), dateInterval.getEnd());
+			newIntervals.add(new DateInterval(dateInterval.getStart(), dateInterval.getEnd()));
 		}
+
+		newDateInfo.openIntervals = newIntervals;
 		return newDateInfo;
 	}
 
