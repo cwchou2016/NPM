@@ -28,6 +28,7 @@ public class DateInfo {
 				// 這邊無法移動日期
 				openIntervals.add(new DateInterval(closeInterval.getEnd(), dateInterval.getEnd())); //應為 closeInterval.getEnd() +1 天
 				dateInterval.setEnd(closeInterval.getStart()); // 應為 closeInterval.getStart() -1 天
+				sort();
 				return;
 			}
 		}
@@ -35,10 +36,7 @@ public class DateInfo {
 		throw new CutDateIntervalException(closeInterval, openIntervals);
 	}
 
-	/**
-	 * @return 整個開放日期的範圍
-	 */
-	public DateInterval getOpenRange() {
+	public void sort() {
 		Collections.sort(openIntervals, new Comparator<DateInterval>() {
 			/**
 			 * 比較兩個 DateInterval.start
@@ -48,8 +46,10 @@ public class DateInfo {
 				return d1.getStart().compareTo(d2.getStart());
 			}
 		});
+	}
 
-		return new DateInterval(openIntervals.get(0).getStart(), openIntervals.get(openIntervals.size() - 1).getEnd());
+	public DateInterval getOpenRange() {
+		return openRange;
 	}
 
 	public DateInfo deepClone() {
