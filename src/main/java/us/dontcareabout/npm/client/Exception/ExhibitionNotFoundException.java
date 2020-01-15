@@ -1,6 +1,6 @@
 package us.dontcareabout.npm.client.Exception;
 
-public class ExhibitionNotFoundException extends RuntimeException {
+public class ExhibitionNotFoundException extends Exception {
 	public final String exhibitionName;
 
 	public ExhibitionNotFoundException(String exhibitionName) {

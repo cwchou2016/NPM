@@ -2,9 +2,13 @@ package us.dontcareabout.npm.client;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
+import us.dontcareabout.gwt.client.Console;
 import us.dontcareabout.gwt.client.google.Sheet;
 import us.dontcareabout.gwt.client.google.SheetHappen;
+import us.dontcareabout.npm.client.Exception.CutDateIntervalException;
 import us.dontcareabout.npm.client.Exception.ExhibitionNotFoundException;
+import us.dontcareabout.npm.client.Exception.RoomCannotSplitException;
+import us.dontcareabout.npm.client.Exception.RoomNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,14 +60,38 @@ public class ExhibitionTable {
 		for (RawData data : dataList) {
 			if (!data.getClose()) continue;
 
-			boolean found = false;
-			for (Exhibition e : exhibitionTable) {
-				if (e.getName().equals(data.getName())) {
-					found = e.addClose(data);
-					break;
-				}
+			try {
+				addCloseData(data);
+			} catch (ExhibitionNotFoundException | RoomCannotSplitException | RoomNotFoundException | CutDateIntervalException ex) {
+				Console.log(ex);
 			}
-			if (!found) throw new ExhibitionNotFoundException(data.getName());
 		}
+	}
+
+	/**
+	 * 加入換展資料
+	 *
+	 * @throws ExhibitionNotFoundException {@param data} 不在 {@link ExhibitionTable} 內。
+	 * @throws RoomCannotSplitException    {@param data} 中的展間為子展間，無法分割。
+	 * @throws RoomNotFoundException       {@param data} 中的展間，不在 {@link Exhibition} 展間內。
+	 * @throws CutDateIntervalException    {@param data} 中的換展日期不在 {@link Exhibition} 展覽期間內。
+	 */
+	private static void addCloseData(RawData data)
+			throws ExhibitionNotFoundException, RoomCannotSplitException, RoomNotFoundException, CutDateIntervalException {
+		for (Exhibition e : exhibitionTable) {
+			if (e.getName().equals(data.getName())) {
+				try {
+					e.addClose(data);
+				} catch (RoomNotFoundException ex) {
+					throw new RoomNotFoundException(ex.room);
+				} catch (RoomCannotSplitException ex) {
+					throw new RoomCannotSplitException(ex.room);
+				} catch (CutDateIntervalException ex) {
+					throw new CutDateIntervalException(ex.inner, ex.outer);
+				}
+				return;
+			}
+		}
+		throw new ExhibitionNotFoundException(data.getName());
 	}
 }

@@ -4,7 +4,7 @@ import us.dontcareabout.npm.client.DateInterval;
 
 import java.util.List;
 
-public class CutDateIntervalException extends RuntimeException {
+public class CutDateIntervalException extends Exception {
 	public final DateInterval inner;
 	public final List<DateInterval> outer;
 

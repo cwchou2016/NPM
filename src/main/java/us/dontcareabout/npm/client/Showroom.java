@@ -43,9 +43,10 @@ public class Showroom {
 	}
 
 	/**
-	 * @return 分割後子展間的名稱。當傳入的 {@param room} 為子展間時，throw {@link RoomCannotSplitException}。
+	 * @return 分割後子展間的名稱。
+	 * @throws RoomCannotSplitException {@param room} 為子展間，無法分割。
 	 */
-	public static List<String> splitRoom(String room) {
+	public static List<String> splitRoom(String room) throws RoomCannotSplitException {
 		ArrayList<String> subRooms = new ArrayList<>();
 
 		if (isSubRoom(room)) throw new RoomCannotSplitException(room);

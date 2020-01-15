@@ -22,8 +22,10 @@ public class DateInfo {
 
 	/**
 	 * 從展廳開放日期區間切除展廳暫時閉閉日期區間
+	 *
+	 * @throws CutDateIntervalException {@param closeInterval} 不在 {@link DateInfo} 範圍內
 	 */
-	public void cutCloseInterval(DateInterval closeInterval) {
+	public void cutCloseInterval(DateInterval closeInterval) throws CutDateIntervalException {
 		for (DateInterval dateInterval : openIntervals) {
 			if (dateInterval.contains(closeInterval)) {
 				CalendarUtil.addDaysToDate(closeInterval.getEnd(), 1);

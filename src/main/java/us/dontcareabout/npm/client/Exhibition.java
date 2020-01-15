@@ -1,10 +1,13 @@
 package us.dontcareabout.npm.client;
 
+import us.dontcareabout.npm.client.Exception.CutDateIntervalException;
+import us.dontcareabout.npm.client.Exception.RoomCannotSplitException;
 import us.dontcareabout.npm.client.Exception.RoomNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,8 +33,12 @@ public class Exhibition {
 
 	/**
 	 * @return 成功加入換展關閉展廳之資訊
+	 * @throws RoomCannotSplitException {@param data} 中的展間為子展間，無法分割。
+	 * @throws RoomNotFoundException    {@param data} 中的展間，不在 {@link Exhibition} 展間內。
+	 * @throws CutDateIntervalException {@param data} 中的換展日期不在 {@link Exhibition} 展覽期間內。
 	 */
-	public boolean addClose(RawData data) {
+	public boolean addClose(RawData data)
+			throws RoomCannotSplitException, RoomNotFoundException, CutDateIntervalException {
 		ArrayList<String> roomToClose = new ArrayList<>();
 
 		for (String r : data.getRooms().split(",")) {
@@ -48,8 +55,14 @@ public class Exhibition {
 				}
 
 				// 展廳已分兩半，全部關閉
-				if (getRooms().containsAll(Showroom.splitRoom(closeRoom))) {
-					roomToClose.addAll(Showroom.splitRoom(closeRoom));
+				List<String> subRooms;
+				try {
+					subRooms = Showroom.splitRoom(closeRoom);
+				} catch (RoomCannotSplitException e) {
+					throw new RoomCannotSplitException(e.room);
+				}
+				if (getRooms().containsAll(subRooms)) {
+					roomToClose.addAll(subRooms);
 					continue;
 				}
 				throw new RoomNotFoundException(closeRoom);
@@ -60,16 +73,28 @@ public class Exhibition {
 
 		DateInterval closeInterval = new DateInterval(data.getStart(), data.getEnd());
 		for (String room : roomToClose) {
-			openIntervals.get(room).cutCloseInterval(closeInterval);
+			try {
+				openIntervals.get(room).cutCloseInterval(closeInterval);
+			} catch (CutDateIntervalException e) {
+				throw new CutDateIntervalException(e.inner, e.outer);
+			}
 		}
 		return true;
 	}
 
 	/**
 	 * 分割展間並複制展覽日期區間
+	 *
+	 * @throws RoomCannotSplitException {@param room} 為子展間，無法分割。
 	 */
-	private void splitRoom(String room) {
-		for (String subRoom : Showroom.splitRoom(room)) {
+	private void splitRoom(String room) throws RoomCannotSplitException {
+		List<String> subRooms;
+		try {
+			subRooms = Showroom.splitRoom(room);
+		} catch (RoomCannotSplitException e) {
+			throw new RoomCannotSplitException(e.room);
+		}
+		for (String subRoom : subRooms) {
 			openIntervals.put(subRoom, openIntervals.get(room).deepClone());
 		}
 		openIntervals.remove(room);
