@@ -37,7 +37,7 @@ public class DateInfo {
 			}
 		}
 
-		throw new CutDateIntervalException(closeInterval, openIntervals);
+		throw new CutDateIntervalException(closeInterval, this);
 	}
 
 	public void sort() {

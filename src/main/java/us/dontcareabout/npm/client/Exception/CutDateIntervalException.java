@@ -1,15 +1,15 @@
 package us.dontcareabout.npm.client.Exception;
 
+import us.dontcareabout.npm.client.ConsoleOut;
+import us.dontcareabout.npm.client.DateInfo;
 import us.dontcareabout.npm.client.DateInterval;
-
-import java.util.List;
 
 public class CutDateIntervalException extends Exception {
 	public final DateInterval inner;
-	public final List<DateInterval> outer;
+	public final DateInfo outer;
 
-	public CutDateIntervalException(DateInterval inner, List<DateInterval> outer) {
-		super(inner + " is not in " + outer);
+	public CutDateIntervalException(DateInterval inner, DateInfo outer) {
+		super(ConsoleOut.print(inner) + " is not in " + ConsoleOut.print(outer));
 		this.inner = inner;
 		this.outer = outer;
 	}
