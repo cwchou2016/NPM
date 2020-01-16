@@ -2,7 +2,6 @@ package us.dontcareabout.npm.client;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
-import us.dontcareabout.gwt.client.Console;
 import us.dontcareabout.gwt.client.google.Sheet;
 import us.dontcareabout.gwt.client.google.SheetHappen;
 import us.dontcareabout.npm.client.Exception.CutDateIntervalException;
@@ -12,11 +11,14 @@ import us.dontcareabout.npm.client.Exception.RoomNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExhibitionTable {
 	private static final SimpleEventBus eventBus = new SimpleEventBus();
 	private static final ArrayList<Exhibition> exhibitionTable = new ArrayList<>();
+	private static final Map<RawData, Exception> errorDataMap = new HashMap<>();
 
 	public static HandlerRegistration addDataReadyHandler(DataReadyEvent.DataReadyHandler handler) {
 		return eventBus.addHandler(DataReadyEvent.TYPE, handler);
@@ -26,6 +28,9 @@ public class ExhibitionTable {
 		return Collections.unmodifiableList(exhibitionTable);
 	}
 
+	public static Map<RawData, Exception> getErrorDataMap() {
+		return Collections.unmodifiableMap(errorDataMap);
+	}
 
 	public static void loadFromGoogleSheet(String sheetId) {
 		SheetHappen.<RawData>get(sheetId, 1, new SheetHappen.Callback<RawData>() {
@@ -63,7 +68,7 @@ public class ExhibitionTable {
 			try {
 				addCloseData(data);
 			} catch (ExhibitionNotFoundException | RoomCannotSplitException | RoomNotFoundException | CutDateIntervalException ex) {
-				Console.log(ex);
+				errorDataMap.put(data, ex);
 			}
 		}
 	}

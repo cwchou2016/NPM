@@ -14,6 +14,12 @@ public class ConsoleOut {
 		}
 	}
 
+	public static void viewErrorData() {
+		for (RawData data : ExhibitionTable.getErrorDataMap().keySet()) {
+			Console.log(print(data) + " " + ExhibitionTable.getErrorDataMap().get(data));
+		}
+	}
+
 	public static String print(Exhibition e) {
 		return "Name: " + e.getName() + ", " +
 				"Showroom: " + e.getRooms() + ", " +
@@ -45,5 +51,14 @@ public class ConsoleOut {
 		m += "]";
 
 		return m;
+	}
+
+	public static String print(RawData data) {
+		return data.getIndex() + ", " +
+				data.getName() + ", " +
+				data.getClose() + ", " +
+				dateFormat.format(data.getStart()) + ", " +
+				dateFormat.format(data.getEnd()) + ", " +
+				data.getRooms();
 	}
 }
