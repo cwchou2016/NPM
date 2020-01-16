@@ -28,10 +28,12 @@ public class DateInfo {
 	public void cutCloseInterval(DateInterval closeInterval) throws CutDateIntervalException {
 		for (DateInterval dateInterval : openIntervals) {
 			if (dateInterval.contains(closeInterval)) {
-				CalendarUtil.addDaysToDate(closeInterval.getEnd(), 1);
-				CalendarUtil.addDaysToDate(closeInterval.getStart(), -1);
-				openIntervals.add(new DateInterval(closeInterval.getEnd(), dateInterval.getEnd()));
-				dateInterval.setEnd(closeInterval.getStart());
+				Date newStart = new Date(closeInterval.getEnd().getTime());
+				Date oldEnd = new Date(closeInterval.getStart().getTime());
+				CalendarUtil.addDaysToDate(newStart, 1);
+				CalendarUtil.addDaysToDate(oldEnd, -1);
+				openIntervals.add(new DateInterval(newStart, dateInterval.getEnd()));
+				dateInterval.setEnd(oldEnd);
 				sort();
 				return;
 			}
