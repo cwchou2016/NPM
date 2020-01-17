@@ -15,6 +15,16 @@ public class DateInfo {
 	private ArrayList<DateInterval> openIntervals = new ArrayList<>();
 	private DateInterval openRange;
 
+	private final static Comparator<DateInterval> DateIntervalComparator = new Comparator<DateInterval>() {
+		/**
+		 * 比較兩個 DateInterval.start
+		 */
+		@Override
+		public int compare(DateInterval d1, DateInterval d2) {
+			return d1.getStart().compareTo(d2.getStart());
+		}
+	};
+
 	DateInfo(Date date1, Date date2) {
 		openRange = new DateInterval(date1, date2);
 		openIntervals.add(new DateInterval(date1, date2));
@@ -32,24 +42,12 @@ public class DateInfo {
 				Date oldEnd = new DateWrapper(closeInterval.getStart()).addDays(-1).asDate();
 				openIntervals.add(new DateInterval(newStart, dateInterval.getEnd()));
 				dateInterval.setEnd(oldEnd);
-				sort();
+				Collections.sort(openIntervals, DateIntervalComparator);
 				return;
 			}
 		}
 
 		throw new CutDateIntervalException(closeInterval, this);
-	}
-
-	public void sort() {
-		Collections.sort(openIntervals, new Comparator<DateInterval>() {
-			/**
-			 * 比較兩個 DateInterval.start
-			 */
-			@Override
-			public int compare(DateInterval d1, DateInterval d2) {
-				return d1.getStart().compareTo(d2.getStart());
-			}
-		});
 	}
 
 	public DateInterval getOpenRange() {
@@ -59,12 +57,9 @@ public class DateInfo {
 	public DateInfo deepClone() {
 		DateInfo newDateInfo = new DateInfo(openRange.getStart(), openRange.getEnd());
 
-		ArrayList<DateInterval> newIntervals = new ArrayList<>();
 		for (DateInterval dateInterval : openIntervals) {
-			newIntervals.add(new DateInterval(dateInterval.getStart(), dateInterval.getEnd()));
+			newDateInfo.openIntervals.add(new DateInterval(dateInterval.getStart(), dateInterval.getEnd()));
 		}
-
-		newDateInfo.openIntervals = newIntervals;
 		return newDateInfo;
 	}
 
