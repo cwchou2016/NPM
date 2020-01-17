@@ -85,15 +85,7 @@ public class ExhibitionTable {
 			throws ExhibitionNotFoundException, RoomCannotSplitException, RoomNotFoundException, CutDateIntervalException {
 		for (Exhibition e : exhibitionTable) {
 			if (e.getName().equals(data.getName())) {
-				try {
-					e.addClose(data);
-				} catch (RoomNotFoundException ex) {
-					throw new RoomNotFoundException(ex.room);
-				} catch (RoomCannotSplitException ex) {
-					throw new RoomCannotSplitException(ex.room);
-				} catch (CutDateIntervalException ex) {
-					throw new CutDateIntervalException(ex.inner, ex.outer);
-				}
+				e.addClose(data);
 				return;
 			}
 		}
