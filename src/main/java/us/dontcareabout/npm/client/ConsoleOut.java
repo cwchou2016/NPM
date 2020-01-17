@@ -34,23 +34,25 @@ public class ConsoleOut {
 	}
 
 	public static String print(Map<String, DateInfo> openInterval) {
-		String m = "{";
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
 		for (String k : openInterval.keySet()) {
-			m += k + "=";
-			m += print(openInterval.get(k));
+			sb.append(k + "=");
+			sb.append(print(openInterval.get(k)) + ", ");
 		}
-		return m + "}";
+		sb.setLength(sb.length() - 2);
+		sb.append("}");
+		return sb.toString();
 	}
 
 	public static String print(DateInfo dateInfo) {
-		String m = "[";
+		StringBuilder sb = new StringBuilder("[");
 		for (DateInterval d : dateInfo.getOpenIntervals()) {
-			m += print(d) + ", ";
+			sb.append(print(d) + ", ");
 		}
-		m = m.substring(0, m.length() - 2);
-		m += "]";
-
-		return m;
+		sb.setLength(sb.length() - 2);
+		sb.append("]");
+		return sb.toString();
 	}
 
 	public static String print(RawData data) {
