@@ -1,6 +1,6 @@
 package us.dontcareabout.npm.client;
 
-import com.google.gwt.user.datepicker.client.CalendarUtil;
+import com.sencha.gxt.core.client.util.DateWrapper;
 import us.dontcareabout.npm.client.Exception.CutDateIntervalException;
 
 import java.util.ArrayList;
@@ -28,10 +28,8 @@ public class DateInfo {
 	public void cutCloseInterval(DateInterval closeInterval) throws CutDateIntervalException {
 		for (DateInterval dateInterval : openIntervals) {
 			if (dateInterval.contains(closeInterval)) {
-				Date newStart = new Date(closeInterval.getEnd().getTime());
-				Date oldEnd = new Date(closeInterval.getStart().getTime());
-				CalendarUtil.addDaysToDate(newStart, 1);
-				CalendarUtil.addDaysToDate(oldEnd, -1);
+				Date newStart = new DateWrapper(closeInterval.getEnd()).addDays(1).asDate();
+				Date oldEnd = new DateWrapper(closeInterval.getStart()).addDays(-1).asDate();
 				openIntervals.add(new DateInterval(newStart, dateInterval.getEnd()));
 				dateInterval.setEnd(oldEnd);
 				sort();
