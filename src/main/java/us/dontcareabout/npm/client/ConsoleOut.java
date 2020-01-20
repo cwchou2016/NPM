@@ -3,6 +3,8 @@ package us.dontcareabout.npm.client;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import us.dontcareabout.gwt.client.Console;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ConsoleOut {
@@ -36,21 +38,32 @@ public class ConsoleOut {
 	public static String print(Map<String, DateInfo> openInterval) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		for (String k : openInterval.keySet()) {
+
+		List<String> keys = new ArrayList<>(openInterval.keySet());
+		for (int i = 0; i < keys.size(); i++) {
+			String k = keys.get(i);
 			sb.append(k + "=");
-			sb.append(print(openInterval.get(k)) + ", ");
+			sb.append(print(openInterval.get(k)));
+			if (i < keys.size() - 1) {
+				sb.append(", ");
+			}
 		}
-		sb.setLength(sb.length() - 2);
+
 		sb.append("}");
 		return sb.toString();
 	}
 
 	public static String print(DateInfo dateInfo) {
 		StringBuilder sb = new StringBuilder("[");
-		for (DateInterval d : dateInfo.getOpenIntervals()) {
-			sb.append(print(d) + ", ");
+
+		List<DateInterval> openIntervals = dateInfo.getOpenIntervals();
+		for (int i = 0; i < openIntervals.size(); i++) {
+			sb.append(print(openIntervals.get(i)));
+			if (i < openIntervals.size() - 1) {
+				sb.append(", ");
+			}
 		}
-		sb.setLength(sb.length() - 2);
+
 		sb.append("]");
 		return sb.toString();
 	}
