@@ -31,6 +31,8 @@ public class NPMEP extends GFEP {
 		ExhibitionTable.addDataReadyHandler(new DataReadyEvent.DataReadyHandler() {
 			@Override
 			public void onDataReady(DataReadyEvent event) {
+				ConsoleOut.viewExhibitionTable();
+				ConsoleOut.viewErrorData();
 				Window.alert("載入完成");
 			}
 		});
