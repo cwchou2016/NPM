@@ -27,6 +27,12 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 		addChild(timelineLayer, 1);
 	}
 
+	public void addExhibitionInfo(String room, DateInterval interval, boolean isClose) {
+		//TODO: 判斷 room 是否為子展間
+
+		roomA.addLine(interval, isClose);
+	}
+
 	class RoomName extends LayerSprite {
 		RoomName(String room) {
 			LTextSprite text = new LTextSprite(room);

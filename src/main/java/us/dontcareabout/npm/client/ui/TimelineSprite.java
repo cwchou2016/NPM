@@ -8,10 +8,29 @@ import us.dontcareabout.npm.client.DateInterval;
 
 public class TimelineSprite extends LayerSprite {
 	private int dayHeight = 20;
-	private int lineWidth = 30;
+	private int lineWidth = 60;
 	private DateInterval interval;
 
 	private int dayShift = 2;
+
+	public int getDayHeight() {
+		return dayHeight;
+	}
+
+	public void setDayHeight(int dayHeight) {
+		this.dayHeight = dayHeight;
+	}
+
+	public int getLineWidth() {
+		return lineWidth;
+	}
+
+	public void setLineWidth(int lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+
+	public TimelineSprite() {
+	}
 
 	public TimelineSprite(DateInterval interval) {
 		this.interval = interval;

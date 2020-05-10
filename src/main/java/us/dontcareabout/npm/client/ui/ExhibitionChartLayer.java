@@ -33,11 +33,17 @@ public class ExhibitionChartLayer extends HorizontalLayoutLayer {
 		addChild(roomChart, 120);
 	}
 
+	public void addExhibition(String room, DateInterval interval, boolean isClose) {
+		//TODO 傳入 Exhibition
+
+		rooms.get(room).addExhibitionInfo(room, interval, isClose);
+	}
+
 	class TimeLabel extends TimelineSprite {
 		public TimeLabel() {
 			Date date = new Date(interval.getStart().getTime());
 			DateTimeFormat format = DateTimeFormat.getFormat("yyyy-MM-dd");
-			
+
 			while (date.before(interval.getEnd())) {
 				LTextSprite text = new LTextSprite(format.format(date));
 				text.setFontSize(26);
