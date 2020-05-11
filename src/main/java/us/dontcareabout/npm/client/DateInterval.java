@@ -12,7 +12,7 @@ public class DateInterval {
 	private Date start;
 	private Date end;
 
-	DateInterval(Date date1, Date date2) {
+	public DateInterval(Date date1, Date date2) {
 		this.start = date1.before(date2) ? date1 : date2;
 		this.end = date1.after(date2) ? date1 : date2;
 	}
