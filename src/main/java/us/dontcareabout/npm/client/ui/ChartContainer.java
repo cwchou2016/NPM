@@ -11,14 +11,17 @@ import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.npm.client.DateInterval;
 
+import java.util.Date;
+
 public class ChartContainer extends LayerContainer {
 	private VerticalLayoutLayer vLayer = new VerticalLayoutLayer();
 	private Header header;
-	private ExhibitionChartLayer ecLayer;
+	private ExhibitionChartLayer ecLayer = new ExhibitionChartLayer();
 
 	public ChartContainer(String title, DateInterval interval) {
 		header = new Header(title);
 		vLayer.addChild(header, 100);
+		vLayer.addChild(ecLayer, 1);
 		addLayer(vLayer);
 
 		createYearButtons(interval);
@@ -39,10 +42,28 @@ public class ChartContainer extends LayerContainer {
 
 	public void loadData(DateInterval interval) {
 		// TODO: 傳入 List<Exhibition>
-		vLayer.remove(ecLayer);
-		ecLayer = new ExhibitionChartLayer(interval);
-		vLayer.addChild(ecLayer, 1);
+
+		ecLayer.updateChart(interval);
+		// 測試資料處理
+		ecLayer.addRoom("S301");
+		ecLayer.addRoom("S302");
+		ecLayer.addRoom("S303");
+
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyyMMdd");
+		Date d1 = dateFormat.parse("20190201");
+		Date d2 = dateFormat.parse("20190228");
+
+		Date d3 = dateFormat.parse("20200201");
+		Date d4 = dateFormat.parse("20200228");
+
+		ecLayer.addExhibition("S301", new DateInterval(d1, d2), true);
+		ecLayer.addExhibition("S303", new DateInterval(d3, d4), false);
+
+		///////////////////
+
 		vLayer.redeploy();
+		vLayer.resize(2000, 3000);
+		setSize("2000", "20000"); // 這裡可以設定成動態大小嗎？
 	}
 
 	@Override

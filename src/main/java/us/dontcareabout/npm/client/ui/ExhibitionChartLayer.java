@@ -14,12 +14,16 @@ public class ExhibitionChartLayer extends HorizontalLayoutLayer {
 	private Map<String, RoomChartLayer> rooms = new HashMap<>();
 	private DateInterval interval;
 
-	public ExhibitionChartLayer(DateInterval interval) {
-		//TODO: 傳入 List<Exhibition>
+	public ExhibitionChartLayer() {
+		setGap(10);
+	}
 
+	public void updateChart(DateInterval interval) {
+		//TODO: 傳入 List<Exhibition>
+		clear();
+		rooms.clear();
 		this.interval = interval.getMonthInterval();
 		createLabel();
-		setGap(10);
 	}
 
 	public void createLabel() {
