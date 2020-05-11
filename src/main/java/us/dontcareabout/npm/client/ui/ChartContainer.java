@@ -14,6 +14,8 @@ import us.dontcareabout.npm.client.DateInterval;
 import java.util.Date;
 
 public class ChartContainer extends LayerContainer {
+	public final static ExhibitionInfoSprite info = new ExhibitionInfoSprite(200, 300);
+
 	private VerticalLayoutLayer vLayer = new VerticalLayoutLayer();
 	private Header header;
 	private ExhibitionChartLayer ecLayer = new ExhibitionChartLayer();
@@ -23,6 +25,7 @@ public class ChartContainer extends LayerContainer {
 		vLayer.addChild(header, 100);
 		vLayer.addChild(ecLayer, 1);
 		addLayer(vLayer);
+		addLayer(info);
 
 		createYearButtons(interval);
 		loadData(interval);
