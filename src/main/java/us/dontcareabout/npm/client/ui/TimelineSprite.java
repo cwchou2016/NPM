@@ -9,11 +9,11 @@ import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.npm.client.DateInterval;
 
 public class TimelineSprite extends LayerSprite {
-	private int dayHeight = 20;
+	private int dayHeight = 5;
 	private int lineWidth = 60;
 	private DateInterval interval;
 
-	private int dayShift = 2;
+	private int dayShift = 5;
 
 	public int getDayHeight() {
 		return dayHeight;
@@ -31,13 +31,21 @@ public class TimelineSprite extends LayerSprite {
 		this.lineWidth = lineWidth;
 	}
 
+	public int getDayShift() {
+		return dayShift;
+	}
+
+	public void setDayShift(int dayShift) {
+		this.dayShift = dayShift;
+	}
+
 	public TimelineSprite() {
 	}
 
 	public TimelineSprite(DateInterval interval) {
 		this.interval = interval;
 
-		int days = interval.getDays() + dayShift * 2;
+		int days = interval.getDays() + (dayShift * 2) + 1;
 		Line line = new Line(days);
 		add(line);
 	}
