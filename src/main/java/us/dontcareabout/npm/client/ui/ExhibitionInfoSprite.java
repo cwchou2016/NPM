@@ -19,6 +19,14 @@ public class ExhibitionInfoSprite extends LayerSprite {
 		content.setLY(50);
 		add(title);
 		add(content);
+
+		hide();
+	}
+
+	public void hide() {
+		setInfo("", "");
+		setLX(-1000);
+		setLY(-1000);
 	}
 
 	public void setInfo(String title, String content) {

@@ -1,7 +1,9 @@
 package us.dontcareabout.npm.client.ui;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Event;
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteSelectionEvent;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerContainer;
@@ -9,6 +11,7 @@ import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.component.TextButton;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
+import us.dontcareabout.npm.client.ConsoleOut;
 import us.dontcareabout.npm.client.DateInterval;
 
 import java.util.Date;
@@ -43,7 +46,7 @@ public class ChartContainer extends LayerContainer {
 		header.redeploy();
 	}
 
-	public void loadData(DateInterval interval) {
+	public void loadData(final DateInterval interval) {
 		// TODO: 傳入 List<Exhibition>
 
 		ecLayer.updateChart(interval);
@@ -59,8 +62,19 @@ public class ChartContainer extends LayerContainer {
 		Date d3 = dateFormat.parse("20200201");
 		Date d4 = dateFormat.parse("20200228");
 
-		ecLayer.addExhibition("S301", new DateInterval(d1, d2), true);
-		ecLayer.addExhibition("S303", new DateInterval(d3, d4), false);
+		// SpriteOverHandler 放在這裡才有 getAbsoluteLeft()/getAbsoluteTop()
+		SpriteOverEvent.SpriteOverHandler handler = new SpriteOverEvent.SpriteOverHandler() {
+			@Override
+			public void onSpriteOver(SpriteOverEvent event) {
+				info.setInfo(ConsoleOut.print(interval), ConsoleOut.print(interval));
+				Event be = event.getBrowserEvent();
+				info.setLX(be.getClientX() - getAbsoluteLeft() + 10);
+				info.setLY(be.getClientY() - getAbsoluteTop() + 10);
+			}
+		};
+
+		ecLayer.addExhibition("S301", new DateInterval(d1, d2), true, handler);
+		ecLayer.addExhibition("S303", new DateInterval(d3, d4), false, handler);
 
 		///////////////////
 

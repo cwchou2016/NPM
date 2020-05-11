@@ -2,6 +2,7 @@ package us.dontcareabout.npm.client.ui;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.npm.client.DateInterval;
@@ -37,10 +38,10 @@ public class ExhibitionChartLayer extends HorizontalLayoutLayer {
 		addChild(roomChart, 120);
 	}
 
-	public void addExhibition(String room, DateInterval interval, boolean isClose) {
+	public void addExhibition(String room, DateInterval interval, boolean isClose, SpriteOverEvent.SpriteOverHandler handler) {
 		//TODO 傳入 Exhibition
 
-		rooms.get(room).addExhibitionInfo(room, interval, isClose);
+		rooms.get(room).addExhibitionInfo(room, interval, isClose, handler);
 	}
 
 	class TimeLabel extends TimelineSprite {

@@ -3,6 +3,8 @@ package us.dontcareabout.npm.client.ui;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOutEvent;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.npm.client.DateInterval;
 
@@ -40,13 +42,22 @@ public class TimelineSprite extends LayerSprite {
 		add(line);
 	}
 
-	public void addLine(DateInterval interval, boolean isClose) {
+	public void addLine(DateInterval interval, boolean isClose, SpriteOverEvent.SpriteOverHandler handler) {
 		int days = interval.getDays() + 1;
 		Line line = new Line(days);
 
 		int y = CalendarUtil.getDaysBetween(this.interval.getStart(), interval.getStart()) + dayShift;
 		line.setLY(y * dayHeight);
 		line.setClose(isClose);
+
+		line.addSpriteOutHandler(new SpriteOutEvent.SpriteOutHandler() {
+			@Override
+			public void onSpriteLeave(SpriteOutEvent spriteOutEvent) {
+				ChartContainer.info.hide();
+			}
+		});
+
+		line.addSpriteOverHandler(handler);
 
 		add(line);
 	}

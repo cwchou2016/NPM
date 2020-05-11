@@ -1,6 +1,7 @@
 package us.dontcareabout.npm.client.ui;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
@@ -27,10 +28,11 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 		addChild(timelineLayer, 1);
 	}
 
-	public void addExhibitionInfo(String room, DateInterval interval, boolean isClose) {
+	public void addExhibitionInfo(String room, DateInterval interval, boolean isClose,
+								  SpriteOverEvent.SpriteOverHandler handler) {
 		//TODO: 判斷 room 是否為子展間
 
-		roomA.addLine(interval, isClose);
+		roomA.addLine(interval, isClose, handler);
 	}
 
 	class RoomName extends LayerSprite {
