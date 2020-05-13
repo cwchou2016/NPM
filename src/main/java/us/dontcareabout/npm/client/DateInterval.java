@@ -1,5 +1,7 @@
 package us.dontcareabout.npm.client;
 
+import com.google.gwt.user.datepicker.client.CalendarUtil;
+
 import java.util.Date;
 
 /**
@@ -19,6 +21,13 @@ public class DateInterval {
 	 */
 	public boolean contains(DateInterval innerInterval) {
 		return start.before(innerInterval.start) && end.after(innerInterval.end);
+	}
+
+	/**
+	 * @return 開始與結束間的天數
+	 */
+	public int getDays() {
+		return CalendarUtil.getDaysBetween(getStart(), getEnd());
 	}
 
 	public Date getStart() {
