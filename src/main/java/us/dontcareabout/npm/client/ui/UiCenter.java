@@ -14,4 +14,8 @@ public class UiCenter {
 	public static HandlerRegistration addMarkOverHandler(TimelineSprite.OnMarkOverHandler handler) {
 		return eventBus.addHandler(TimelineSprite.OnMarkOverEvent.TYPE, handler);
 	}
+
+	public static HandlerRegistration addMarkLeaveHandler(TimelineSprite.OnMarkLeaveHandler handler) {
+		return eventBus.addHandler(TimelineSprite.OnMarkLeaveEvent.TYPE, handler);
+	}
 }

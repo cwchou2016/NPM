@@ -4,6 +4,7 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOutEvent;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.npm.client.DateInterval;
@@ -65,6 +66,13 @@ public class TimelineSprite extends LayerSprite {
 			}
 		});
 
+		mark.addSpriteOutHandler(new SpriteOutEvent.SpriteOutHandler() {
+			@Override
+			public void onSpriteLeave(SpriteOutEvent spriteOutEvent) {
+				UiCenter.fire(new OnMarkLeaveEvent());
+			}
+		});
+
 		int days = dateInterval.getDays();
 		int y = (days + shiftDays) * dayHeight;
 		mark.setLY(y);
@@ -88,5 +96,23 @@ public class TimelineSprite extends LayerSprite {
 
 	public interface OnMarkOverHandler extends EventHandler {
 		public void onMarkOver(OnMarkOverEvent event);
+	}
+
+	public static class OnMarkLeaveEvent extends GwtEvent<OnMarkLeaveHandler> {
+		public static final Type<OnMarkLeaveHandler> TYPE = new Type<>();
+
+		@Override
+		public Type<OnMarkLeaveHandler> getAssociatedType() {
+			return TYPE;
+		}
+
+		@Override
+		protected void dispatch(OnMarkLeaveHandler onMarkLeaveHandler) {
+			onMarkLeaveHandler.onMarkLeave(this);
+		}
+	}
+
+	public interface OnMarkLeaveHandler extends EventHandler {
+		public void onMarkLeave(OnMarkLeaveEvent event);
 	}
 }
