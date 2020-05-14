@@ -1,7 +1,10 @@
 package us.dontcareabout.npm.client.ui;
 
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.npm.client.DateInterval;
 
@@ -55,10 +58,35 @@ public class TimelineSprite extends LayerSprite {
 			mark.setLZIndex(2);
 		}
 
+		mark.addSpriteOverHandler(new SpriteOverEvent.SpriteOverHandler() {
+			@Override
+			public void onSpriteOver(SpriteOverEvent spriteOverEvent) {
+				UiCenter.fire(new OnMarkOverEvent());
+			}
+		});
+
 		int days = dateInterval.getDays();
 		int y = (days + shiftDays) * dayHeight;
 		mark.setLY(y);
 
 		add(mark);
+	}
+
+	public static class OnMarkOverEvent extends GwtEvent<OnMarkOverHandler> {
+		public static final Type<OnMarkOverHandler> TYPE = new Type<>();
+
+		@Override
+		public Type<OnMarkOverHandler> getAssociatedType() {
+			return TYPE;
+		}
+
+		@Override
+		protected void dispatch(OnMarkOverHandler onMarkOverHandler) {
+			onMarkOverHandler.onMarkOver(this);
+		}
+	}
+
+	public interface OnMarkOverHandler extends EventHandler {
+		public void onMarkOver(OnMarkOverEvent event);
 	}
 }
