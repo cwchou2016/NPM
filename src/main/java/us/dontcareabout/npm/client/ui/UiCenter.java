@@ -11,11 +11,11 @@ public class UiCenter {
 		eventBus.fireEvent(event);
 	}
 
-	public static HandlerRegistration addMarkOverHandler(TimelineSprite.OnMarkOverHandler handler) {
-		return eventBus.addHandler(TimelineSprite.OnMarkOverEvent.TYPE, handler);
+	public static HandlerRegistration addMarkOverHandler(TimelineLayer.OnMarkOverHandler handler) {
+		return eventBus.addHandler(TimelineLayer.OnMarkOverEvent.TYPE, handler);
 	}
 
-	public static HandlerRegistration addMarkLeaveHandler(TimelineSprite.OnMarkLeaveHandler handler) {
-		return eventBus.addHandler(TimelineSprite.OnMarkLeaveEvent.TYPE, handler);
+	public static HandlerRegistration addMarkLeaveHandler(TimelineLayer.OnMarkLeaveHandler handler) {
+		return eventBus.addHandler(TimelineLayer.OnMarkLeaveEvent.TYPE, handler);
 	}
 }
