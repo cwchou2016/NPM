@@ -1,7 +1,5 @@
 package us.dontcareabout.npm.client.ui;
 
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.GwtEvent;
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteOutEvent;
@@ -79,23 +77,5 @@ public class TimelineLayer extends LayerSprite {
 		mark.setLY(y);
 
 		add(mark);
-	}
-	
-	public static class OnMarkLeaveEvent extends GwtEvent<OnMarkLeaveHandler> {
-		public static final Type<OnMarkLeaveHandler> TYPE = new Type<>();
-
-		@Override
-		public Type<OnMarkLeaveHandler> getAssociatedType() {
-			return TYPE;
-		}
-
-		@Override
-		protected void dispatch(OnMarkLeaveHandler onMarkLeaveHandler) {
-			onMarkLeaveHandler.onMarkLeave(this);
-		}
-	}
-
-	public interface OnMarkLeaveHandler extends EventHandler {
-		public void onMarkLeave(OnMarkLeaveEvent event);
 	}
 }

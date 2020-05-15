@@ -15,7 +15,7 @@ public class UiCenter {
 		return eventBus.addHandler(OnMarkOverEvent.TYPE, handler);
 	}
 
-	public static HandlerRegistration addMarkLeaveHandler(TimelineLayer.OnMarkLeaveHandler handler) {
-		return eventBus.addHandler(TimelineLayer.OnMarkLeaveEvent.TYPE, handler);
+	public static HandlerRegistration addMarkLeaveHandler(OnMarkLeaveEvent.OnMarkLeaveHandler handler) {
+		return eventBus.addHandler(OnMarkLeaveEvent.TYPE, handler);
 	}
 }
