@@ -29,32 +29,24 @@ public class TimelineLayer extends LayerSprite {
 		this.dayHeight = dayHeight;
 		this.shiftDays = shiftDays;
 
-		LayerSprite mark = createMark(interval, BG_COLOR);
-		mark.resize(mark.getWidth(), mark.getHeight() + shiftDays * dayHeight);
-		add(mark);
-	}
-
-	/**
-	 * @return 日期區間標記 {@link LayerSprite}
-	 */
-	private LayerSprite createMark(DateInterval dateInterval, Color color) {
 		LayerSprite mark = new LayerSprite();
-		mark.resize(lineWidth, (dateInterval.getDays() + 1) * dayHeight);
-		mark.setBgColor(color);
-		return mark;
+		mark.resize(lineWidth, (interval.getDays() + 1 + shiftDays) * dayHeight);
+		mark.setBgColor(BG_COLOR);
+		add(mark);
 	}
 
 	/**
 	 * 在 Timeline 上增加展間區間標記
 	 */
 	public void addMark(DateInterval dateInterval, boolean isClose) {
-		LayerSprite mark;
+		LayerSprite mark = new LayerSprite();
+		mark.resize(lineWidth, (dateInterval.getDays() + 1) * dayHeight);
 
 		if (isClose) {
-			mark = createMark(dateInterval, CLOSE_COLOR);
+			mark.setBgColor(CLOSE_COLOR);
 			mark.setLZIndex(3);
 		} else {
-			mark = createMark(dateInterval, OPEN_COLOR);
+			mark.setBgColor(OPEN_COLOR);
 			mark.setLZIndex(2);
 		}
 
