@@ -80,25 +80,7 @@ public class TimelineLayer extends LayerSprite {
 
 		add(mark);
 	}
-
-	public static class OnMarkOverEvent extends GwtEvent<OnMarkOverHandler> {
-		public static final Type<OnMarkOverHandler> TYPE = new Type<>();
-
-		@Override
-		public Type<OnMarkOverHandler> getAssociatedType() {
-			return TYPE;
-		}
-
-		@Override
-		protected void dispatch(OnMarkOverHandler onMarkOverHandler) {
-			onMarkOverHandler.onMarkOver(this);
-		}
-	}
-
-	public interface OnMarkOverHandler extends EventHandler {
-		public void onMarkOver(OnMarkOverEvent event);
-	}
-
+	
 	public static class OnMarkLeaveEvent extends GwtEvent<OnMarkLeaveHandler> {
 		public static final Type<OnMarkLeaveHandler> TYPE = new Type<>();
 
