@@ -1,11 +1,15 @@
 package us.dontcareabout.npm.client.ui;
 
+import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.sencha.gxt.chart.client.draw.Color;
 import com.sencha.gxt.chart.client.draw.RGB;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteOutEvent;
 import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.npm.client.DateInterval;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 時間軸，上面標示展廳開放日期，及換展關閉日期。
@@ -17,20 +21,18 @@ public class TimelineLayer extends LayerSprite {
 	private static final Color CLOSE_COLOR = RGB.RED;
 	private static final Color OPEN_COLOR = RGB.ORANGE;
 
-	private int lineWidth;
-	private int dayHeight;
+	private int days;
+	private int y;
 	private int shiftDays;
 	private DateInterval interval;
+	private List<TimelineLayer> markList = new ArrayList<>();
 
 
-	public TimelineLayer(DateInterval interval, int lineWidth, int dayHeight, int shiftDays) {
+	public TimelineLayer(DateInterval interval, int shiftDays) {
 		this.interval = interval;
-		this.lineWidth = lineWidth;
-		this.dayHeight = dayHeight;
 		this.shiftDays = shiftDays;
 
-
-		resize(lineWidth, (interval.getDays() + 1 + shiftDays) * dayHeight);
+		days = interval.getDays() + 1 + (shiftDays * 2);
 		setBgColor(BG_COLOR);
 	}
 
@@ -38,7 +40,7 @@ public class TimelineLayer extends LayerSprite {
 	 * 在 Timeline 上增加展間區間標記
 	 */
 	public void addMark(DateInterval dateInterval, boolean isClose) {
-		TimelineLayer mark = new TimelineLayer(dateInterval, lineWidth, dayHeight, 0);
+		TimelineLayer mark = new TimelineLayer(dateInterval, 0);
 
 		if (isClose) {
 			mark.setBgColor(CLOSE_COLOR);
@@ -62,10 +64,19 @@ public class TimelineLayer extends LayerSprite {
 			}
 		});
 
-		int days = dateInterval.getDays();
-		int y = (days + shiftDays) * dayHeight;
-		mark.setLY(y);
-
+		mark.y = CalendarUtil.getDaysBetween(interval.getStart(), mark.interval.getStart()) + shiftDays;
 		add(mark);
+		markList.add(mark);
+	}
+
+	@Override
+	protected void adjustMember() {
+		super.adjustMember();
+		double dayHeight = getHeight() / days;
+
+		for (TimelineLayer mark : markList) {
+			mark.resize(getWidth(), mark.days * dayHeight);
+			mark.setLY(mark.y * dayHeight);
+		}
 	}
 }
