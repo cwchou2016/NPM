@@ -33,6 +33,13 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 		addChild(hLayer, 1);
 	}
 
+	/**
+	 * 在子展間中加入展覽資訊
+	 */
+	public void addExhibitionInfo(String subRoom, DateInterval dateInterval, boolean isClose) {
+		subRoomMap.get(subRoom).addMark(dateInterval, isClose);
+	}
+
 	static class RoomNameSprite extends LayerSprite {
 		private LTextSprite nameText;
 
