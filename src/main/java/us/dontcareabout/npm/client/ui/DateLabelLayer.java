@@ -17,7 +17,7 @@ public class DateLabelLayer extends LayerSprite {
 
 	public DateLabelLayer(DateInterval interval, int shiftDays) {
 		setBgColor(RGB.NONE);
-		this.days = interval.getDays();
+		this.days = (interval.getDays() + (shiftDays * 2));
 		Date date = new Date(interval.getStart().getTime());
 		CalendarUtil.setToFirstDayOfMonth(date);
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-MM");
