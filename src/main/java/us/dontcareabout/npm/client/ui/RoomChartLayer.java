@@ -1,6 +1,7 @@
 package us.dontcareabout.npm.client.ui;
 
 import com.sencha.gxt.chart.client.draw.RGB;
+import com.sencha.gxt.chart.client.draw.sprite.TextSprite;
 import us.dontcareabout.gxt.client.draw.LTextSprite;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
@@ -49,6 +50,24 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 			nameText.setFontSize(72);
 			add(nameText);
 			setBgColor(RGB.BLUE);
+			nameText.setTextAnchor(TextSprite.TextAnchor.MIDDLE);
+			nameText.setTextBaseline(TextSprite.TextBaseline.MIDDLE);
+		}
+
+		@Override
+		protected void adjustMember() {
+			double height = getHeight();
+			double width = getWidth();
+			int fontSize;
+
+			if (height < width) {
+				fontSize = (int) (height * 0.8);
+			} else {
+				fontSize = (int) (width * 0.4);
+			}
+			nameText.setFontSize(fontSize);
+			nameText.setLX(width / 2.0);
+			nameText.setLY((height / 2.0) - (fontSize / 5.0));
 		}
 	}
 }
