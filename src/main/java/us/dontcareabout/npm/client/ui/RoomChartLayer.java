@@ -35,10 +35,19 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 	}
 
 	/**
-	 * 在子展間中加入展覽資訊
+	 * 在(子)展間中加入展覽資訊
 	 */
-	public void addExhibitionInfo(String subRoom, DateInterval dateInterval, boolean isClose) {
-		subRoomMap.get(subRoom).addMark(dateInterval, isClose);
+	public void addExhibitionInfo(String room, DateInterval dateInterval, boolean isClose) throws RoomCannotSplitException {
+		if (Showroom.isSubRoom(room)) {
+			subRoomMap.get(room).addMark(dateInterval, isClose);
+			return;
+		}
+
+		List<String> subRoomList = Showroom.splitRoom(room);
+		for (String r : subRoomList) {
+			subRoomMap.get(r).addMark(dateInterval, isClose);
+		}
+
 	}
 
 	static class RoomNameSprite extends LayerSprite {
