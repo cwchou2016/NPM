@@ -9,6 +9,8 @@ import us.dontcareabout.npm.client.Exception.RoomCannotSplitException;
 import us.dontcareabout.npm.client.Exhibition;
 import us.dontcareabout.npm.client.Showroom;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +69,10 @@ public class ExhibitionChartLayer extends HorizontalLayoutLayer {
 	private void draw() {
 		double weight = 1.0 / (roomMap.keySet().size());
 		addChild(labelLayer, 80);
-		for (String room : roomMap.keySet()) {
+
+		List<String> sortedRoomList = new ArrayList<>(roomMap.keySet());
+		Collections.sort(sortedRoomList);
+		for (String room : sortedRoomList) {
 			addChild(roomMap.get(room), weight);
 		}
 	}
