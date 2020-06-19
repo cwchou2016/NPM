@@ -21,6 +21,7 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 
 	public RoomChartLayer(String room, DateInterval interval, int shiftDays) throws RoomCannotSplitException {
 		RoomNameSprite roomName = new RoomNameSprite(room);
+		roomName.setLZIndex(4);
 
 		List<String> subRoomList = Showroom.splitRoom(room);
 		for (String subRoom : subRoomList) {

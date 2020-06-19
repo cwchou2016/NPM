@@ -44,10 +44,10 @@ public class TimelineLayer extends LayerSprite {
 
 		if (isClose) {
 			mark.setBgColor(CLOSE_COLOR);
-			mark.setLZIndex(3);
+			mark.setLZIndex(2);
 		} else {
 			mark.setBgColor(OPEN_COLOR);
-			mark.setLZIndex(2);
+			mark.setLZIndex(3);
 		}
 
 		mark.addSpriteOverHandler(new SpriteOverEvent.SpriteOverHandler() {
