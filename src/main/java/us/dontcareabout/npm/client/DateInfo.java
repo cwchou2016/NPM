@@ -57,6 +57,7 @@ public class DateInfo {
 	public DateInfo deepClone() {
 		DateInfo newDateInfo = new DateInfo(openRange.getStart(), openRange.getEnd());
 
+		newDateInfo.openIntervals.clear();
 		for (DateInterval dateInterval : openIntervals) {
 			newDateInfo.openIntervals.add(new DateInterval(dateInterval.getStart(), dateInterval.getEnd()));
 		}
