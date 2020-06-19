@@ -1,5 +1,6 @@
 package us.dontcareabout.npm.client.ui;
 
+import us.dontcareabout.gwt.client.Console;
 import us.dontcareabout.gxt.client.draw.LayerSprite;
 import us.dontcareabout.gxt.client.draw.layout.HorizontalLayoutLayer;
 import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
@@ -9,6 +10,7 @@ import us.dontcareabout.npm.client.Exhibition;
 import us.dontcareabout.npm.client.Showroom;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ExhibitionChartLayer extends HorizontalLayoutLayer {
@@ -18,22 +20,31 @@ public class ExhibitionChartLayer extends HorizontalLayoutLayer {
 	private VerticalLayoutLayer labelLayer = new VerticalLayoutLayer();
 
 	public ExhibitionChartLayer(DateInterval interval) {
-		//TODO: 傳入 List<Exhibition>
 		this.interval = interval;
 		setGap(10);
 
 		DateLabelLayer label = new DateLabelLayer(interval, shiftDays);
 		labelLayer.addChild(new LayerSprite(), 60);
 		labelLayer.addChild(label, 1);
-
 	}
 
-	public void createRoom(String room) throws RoomCannotSplitException {
+	public void loadExhibitionList(List<Exhibition> exhibitionList) {
+		for (Exhibition e : exhibitionList) {
+			try {
+				addExhibition(e);
+			} catch (RoomCannotSplitException exception) {
+				Console.log(exception);
+			}
+		}
+		draw();
+	}
+
+	private void createRoom(String room) throws RoomCannotSplitException {
 		RoomChartLayer rc = new RoomChartLayer(room, interval, shiftDays);
 		roomMap.put(room, rc);
 	}
 
-	public void addExhibition(Exhibition e) throws RoomCannotSplitException {
+	private void addExhibition(Exhibition e) throws RoomCannotSplitException {
 		DateInterval displayDate = e.getDisplayDate();
 
 		for (String r : e.getRooms()) {
@@ -53,7 +64,7 @@ public class ExhibitionChartLayer extends HorizontalLayoutLayer {
 		}
 	}
 
-	public void draw() {
+	private void draw() {
 		double weight = 1.0 / (roomMap.keySet().size());
 		addChild(labelLayer, 80);
 		for (String room : roomMap.keySet()) {
