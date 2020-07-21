@@ -39,7 +39,7 @@ public class TimelineLayer extends LayerSprite {
 	/**
 	 * 在 Timeline 上增加展間區間標記
 	 */
-	public void addMark(DateInterval dateInterval, boolean isClose) {
+	public TimelineLayer addMark(DateInterval dateInterval, boolean isClose) {
 		TimelineLayer mark = new TimelineLayer(dateInterval, 0);
 
 		if (isClose) {
@@ -50,23 +50,26 @@ public class TimelineLayer extends LayerSprite {
 			mark.setLZIndex(2);
 		}
 
-		mark.addSpriteOverHandler(new SpriteOverEvent.SpriteOverHandler() {
+		mark.y = CalendarUtil.getDaysBetween(interval.getStart(), mark.interval.getStart()) + shiftDays;
+		add(mark);
+		markList.add(mark);
+		return mark;
+	}
+
+	public void addTooltip() {
+		addSpriteOverHandler(new SpriteOverEvent.SpriteOverHandler() {
 			@Override
 			public void onSpriteOver(SpriteOverEvent spriteOverEvent) {
 				UiCenter.fire(new OnMarkOverEvent());
 			}
 		});
 
-		mark.addSpriteOutHandler(new SpriteOutEvent.SpriteOutHandler() {
+		addSpriteOutHandler(new SpriteOutEvent.SpriteOutHandler() {
 			@Override
 			public void onSpriteLeave(SpriteOutEvent spriteOutEvent) {
 				UiCenter.fire(new OnMarkLeaveEvent());
 			}
 		});
-
-		mark.y = CalendarUtil.getDaysBetween(interval.getStart(), mark.interval.getStart()) + shiftDays;
-		add(mark);
-		markList.add(mark);
 	}
 
 	@Override

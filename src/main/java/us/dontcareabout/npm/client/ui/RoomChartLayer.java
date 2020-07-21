@@ -47,7 +47,8 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 			if (tl == null) {
 				throw new RoomNotFoundException(showRoom);
 			}
-			subRoomMap.get(showRoom).addMark(dateInterval, isClose);
+			TimelineLayer mark = tl.addMark(dateInterval, isClose);
+			mark.addTooltip();
 			return;
 		}
 
@@ -56,7 +57,8 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 		}
 
 		for (String subRoom : Showroom.splitRoom(showRoom)) {
-			subRoomMap.get(subRoom).addMark(dateInterval, isClose);
+			TimelineLayer mark = subRoomMap.get(subRoom).addMark(dateInterval, isClose);
+			mark.addTooltip();
 		}
 	}
 
