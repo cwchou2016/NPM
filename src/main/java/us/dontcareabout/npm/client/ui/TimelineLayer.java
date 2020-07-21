@@ -60,7 +60,7 @@ public class TimelineLayer extends LayerSprite {
 		addSpriteOverHandler(new SpriteOverEvent.SpriteOverHandler() {
 			@Override
 			public void onSpriteOver(SpriteOverEvent spriteOverEvent) {
-				UiCenter.fire(new OnMarkOverEvent());
+				UiCenter.fire(new OnMarkOverEvent(spriteOverEvent));
 			}
 		});
 
