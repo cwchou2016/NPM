@@ -19,6 +19,7 @@ public class Exhibition {
 	 * value: 開放日期區間
 	 */
 	private Map<String, DateInfo> openIntervals = new HashMap<>();
+	private Map<String, ArrayList<DateInterval>> closeIntervals = new HashMap<>();
 
 
 	Exhibition(RawData data) {
@@ -68,6 +69,11 @@ public class Exhibition {
 		DateInterval closeInterval = new DateInterval(data.getStart(), data.getEnd());
 		for (String room : roomToClose) {
 			openIntervals.get(room).cutCloseInterval(closeInterval);
+
+			if (closeIntervals.get(room) == null) {
+				closeIntervals.put(room, new ArrayList<DateInterval>());
+			}
+			closeIntervals.get(room).add(closeInterval);
 		}
 	}
 
@@ -102,5 +108,9 @@ public class Exhibition {
 
 	public Map<String, DateInfo> getOpenIntervals() {
 		return Collections.unmodifiableMap(openIntervals);
+	}
+
+	public Map<String, ArrayList<DateInterval>> getCloseIntervals() {
+		return Collections.unmodifiableMap(closeIntervals);
 	}
 }
