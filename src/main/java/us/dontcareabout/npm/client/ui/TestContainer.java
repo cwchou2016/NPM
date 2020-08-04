@@ -13,11 +13,12 @@ public class TestContainer extends LayerContainer {
 
 	public TestContainer(Exhibition ex) throws RoomCannotSplitException, RoomNotFoundException {
 		super(300, 700);
+		String openInfo = ExhibitionInfo.openInfo(ex);
 		//只畫一個展間
 		for (String r : ex.getRooms()) {
 			String room = Showroom.getParentName(r);
 			rc = new RoomChartLayer(room, ex.getDisplayDate(), 10);
-			rc.addExhibitionInfo(r, ex, ex.getOpenIntervals().get(r).getOpenIntervals().get(0), false);
+			rc.addExhibitionInfo(r, openInfo, ex.getOpenIntervals().get(r).getOpenIntervals().get(0), false);
 			break;
 		}
 
@@ -28,6 +29,7 @@ public class TestContainer extends LayerContainer {
 			@Override
 			public void onMarkOver(OnMarkOverEvent event) {
 				Event be = event.getSpriteOverEvent().getBrowserEvent();
+				tooltip.updateInfo(event.getInfo());
 				tooltip.show(be.getClientX() - getAbsoluteLeft(), be.getClientY() - getAbsoluteTop());
 			}
 		});
