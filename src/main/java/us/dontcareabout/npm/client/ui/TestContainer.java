@@ -2,6 +2,7 @@ package us.dontcareabout.npm.client.ui;
 
 import com.google.gwt.user.client.Event;
 import us.dontcareabout.gxt.client.draw.LayerContainer;
+import us.dontcareabout.npm.client.DateInterval;
 import us.dontcareabout.npm.client.Exception.RoomCannotSplitException;
 import us.dontcareabout.npm.client.Exception.RoomNotFoundException;
 import us.dontcareabout.npm.client.Exhibition;
@@ -18,7 +19,12 @@ public class TestContainer extends LayerContainer {
 		for (String r : ex.getRooms()) {
 			String room = Showroom.getParentName(r);
 			rc = new RoomChartLayer(room, ex.getDisplayDate(), 10);
-			rc.addExhibitionInfo(r, openInfo, ex.getOpenIntervals().get(r).getOpenIntervals().get(0), false);
+			rc.addExhibitionInfo(r, openInfo, ex.getDisplayDate(), false);
+
+			for (DateInterval di : ex.getCloseIntervals().get(r)) {
+				String closeInfo = ExhibitionInfo.closeInfo(ex.getName(), r, di);
+				rc.addExhibitionInfo(r, closeInfo, di, true);
+			}
 			break;
 		}
 
