@@ -7,7 +7,6 @@ import us.dontcareabout.gxt.client.draw.layout.VerticalLayoutLayer;
 import us.dontcareabout.npm.client.DateInterval;
 import us.dontcareabout.npm.client.Exception.RoomCannotSplitException;
 import us.dontcareabout.npm.client.Exception.RoomNotFoundException;
-import us.dontcareabout.npm.client.Exhibition;
 import us.dontcareabout.npm.client.Showroom;
 
 import java.util.HashMap;
@@ -39,16 +38,14 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 	/**
 	 * 加入(子)展間的展覽資訊
 	 */
-	public void addExhibitionInfo(String showRoom, Exhibition e, DateInterval dateInterval, boolean isClose) throws RoomCannotSplitException, RoomNotFoundException {
-		// TODO: 處理展覽詳細資訊
-
+	public void addExhibitionInfo(String showRoom, String info, DateInterval dateInterval, boolean isClose) throws RoomCannotSplitException, RoomNotFoundException {
 		if (Showroom.isSubRoom(showRoom)) {
 			TimelineLayer tl = subRoomMap.get(showRoom);
 			if (tl == null) {
 				throw new RoomNotFoundException(showRoom);
 			}
 			TimelineLayer mark = tl.addMark(dateInterval, isClose);
-			mark.addTooltip();
+			mark.addTooltip(info);
 			return;
 		}
 
@@ -58,7 +55,7 @@ public class RoomChartLayer extends VerticalLayoutLayer {
 
 		for (String subRoom : Showroom.splitRoom(showRoom)) {
 			TimelineLayer mark = subRoomMap.get(subRoom).addMark(dateInterval, isClose);
-			mark.addTooltip();
+			mark.addTooltip(info);
 		}
 	}
 

@@ -8,15 +8,20 @@ import com.sencha.gxt.chart.client.draw.sprite.SpriteOverEvent;
 public class OnMarkOverEvent extends GwtEvent<OnMarkOverEvent.OnMarkOverHandler> {
 	public static final Type<OnMarkOverHandler> TYPE = new Type<>();
 	private final SpriteOverEvent spriteOverEvent;
+	private final String info;
 
-	public OnMarkOverEvent(SpriteOverEvent spriteOverEvent) {
+	public OnMarkOverEvent(SpriteOverEvent spriteOverEvent, String info) {
 		this.spriteOverEvent = spriteOverEvent;
+		this.info = info;
 	}
 
 	public SpriteOverEvent getSpriteOverEvent() {
 		return spriteOverEvent;
 	}
 
+	public String getInfo() {
+		return info;
+	}
 
 	@Override
 	public Type<OnMarkOverHandler> getAssociatedType() {

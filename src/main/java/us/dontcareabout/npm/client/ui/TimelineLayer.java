@@ -56,11 +56,11 @@ public class TimelineLayer extends LayerSprite {
 		return mark;
 	}
 
-	public void addTooltip() {
+	public void addTooltip(final String info) {
 		addSpriteOverHandler(new SpriteOverEvent.SpriteOverHandler() {
 			@Override
 			public void onSpriteOver(SpriteOverEvent spriteOverEvent) {
-				UiCenter.fire(new OnMarkOverEvent(spriteOverEvent));
+				UiCenter.fire(new OnMarkOverEvent(spriteOverEvent, info));
 			}
 		});
 
